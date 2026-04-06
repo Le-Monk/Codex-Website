@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>John Adams | Personal Website</title>
+    <meta
+      name="description"
+      content="Personal website for John Adams - projects, skills, and contact."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-one" aria-hidden="true"></div>
+    <div class="bg-orb orb-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="logo" href="#top">JA</a>
+      <nav class="top-nav">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-btn" aria-label="Toggle menu">Menu</button>
+    </header>
+
+    <main id="top">
+      <section class="hero reveal">
+        <div class="hero-content">
+          <p class="kicker">Software Engineer - Designer - Builder</p>
+          <h1>
+            Hi, I'm <span class="accent">John Adams</span>.<br />
+            I build things people enjoy using.
+          </h1>
+          <p class="hero-copy">
+            I craft reliable software and thoughtful interfaces. I care about
+            performance, accessibility, and clear communication.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#projects">See my work</a>
+            <a class="btn ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+        <figure class="hero-photo-wrap">
+          <img
+            class="hero-photo"
+            src="neptune.jpg"
+            alt="Portrait of John Adams"
+            loading="eager"
+          />
+        </figure>
+      </section>
+
+      <section id="about" class="card reveal">
+        <h2>About</h2>
+        <p>
+          I'm a Computer Science student with hands-on experience building
+          full-stack applications, designing responsive user interfaces, and
+          collaborating on team-based software projects from planning through
+          delivery. I enjoy breaking down complex technical problems, writing
+          clean and maintainable code, and improving performance and usability
+          through practical iteration. My work includes JavaScript/TypeScript
+          web apps, backend API development, database integration, version
+          control with Git, and testing/debugging workflows that keep products
+          reliable. I'm especially interested in building software that is both
+          technically strong and genuinely useful to people.
+        </p>
+      </section>
+
+      <section id="projects" class="reveal">
+        <div class="section-head">
+          <h2>Featured Projects</h2>
+          <p>Selected builds that show how I think and ship.</p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <p class="project-tag">Web App</p>
+            <h3>Project One</h3>
+            <p>
+              Built a full-stack app that reduced manual workflows with a clean
+              dashboard and automation tools.
+            </p>
+            <a href="#" aria-label="Open Project One">View project</a>
+          </article>
+
+          <article class="project-card">
+            <p class="project-tag">Mobile</p>
+            <h3>Project Two</h3>
+            <p>
+              Designed and launched a fast mobile experience focused on
+              onboarding and retention.
+            </p>
+            <a href="#" aria-label="Open Project Two">View project</a>
+          </article>
+
+          <article class="project-card">
+            <p class="project-tag">AI Tooling</p>
+            <h3>Project Three</h3>
+            <p>
+              Created an internal AI assistant that improved team response times
+              and reduced repetitive tasks.
+            </p>
+            <a href="#" aria-label="Open Project Three">View project</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" class="card reveal">
+        <h2>Skills</h2>
+        <ul class="pill-list">
+          <li>JavaScript / TypeScript</li>
+          <li>React / Next.js</li>
+          <li>Node.js</li>
+          <li>Python</li>
+          <li>API Design</li>
+          <li>Design Systems</li>
+          <li>Accessibility</li>
+          <li>Cloud Deployment</li>
+        </ul>
+      </section>
+
+      <section id="contact" class="card reveal">
+        <h2>Contact</h2>
+        <p>
+          I'm open to internships, entry-level roles, and interesting
+          collaborations.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:johnadams@gmail.com">johnadams@gmail.com</a>
+          <a href="tel:2935727333">2935727333</a>
+          <span>John Adams</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>(c) <span id="year"></span> John Adams. Built with intention.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
