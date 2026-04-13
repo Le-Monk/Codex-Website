@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arcade Atlas | Nebula Dash</title>
+    <meta
+      name="description"
+      content="Nebula Dash game page in Arcade Atlas terminal interface."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="game-1">
+    <div class="crt-overlay" aria-hidden="true"></div>
+
+    <header class="site-header pane">
+      <a class="brand" href="index.html" aria-label="Arcade Atlas home">
+        <span>ARCADE_ATLAS</span><span class="cursor" aria-hidden="true">_</span>
+      </a>
+      <button class="menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+        [ MENU ]
+      </button>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a data-nav="home" href="index.html">$ HOME</a>
+        <a data-nav="game-1" href="game-1.html">$ NEBULA_DASH</a>
+        <a data-nav="game-2" href="game-2.html">$ GLYPH_GUARD</a>
+        <a data-nav="game-3" href="game-3.html">$ CIRCUIT_CLASH</a>
+      </nav>
+    </header>
+
+    <main class="page-wrap">
+      <section class="pane hero reveal">
+        <p class="titlebar">+--- GAME WINDOW 01 ---+</p>
+        <p class="prompt">player@arcade:~/nebula-dash$ ./start --difficulty hard</p>
+        <h1><span data-typing data-text="NEBULA DASH"></span><span class="cursor" aria-hidden="true">_</span></h1>
+        <p class="body-copy">Insert movement logic, collision checks, and scoring loop in this dedicated pane.</p>
+      </section>
+
+      <section class="game-shell reveal">
+        <div class="pane game-board" role="img" aria-label="Placeholder area for Nebula Dash game">
+          <p class="titlebar">+--- RENDER TARGET ---+</p>
+          <p class="board-label">[ GAME_AREA_READY ]</p>
+        </div>
+        <aside class="pane game-panel">
+          <p class="titlebar">+--- PROCESS LOG ---+</p>
+          <p class="body-copy">[OK] Canvas/DOM zone prepared.</p>
+          <p class="body-copy">[OK] HUD and controls container prepared.</p>
+          <p class="body-copy">[WARN] Gameplay logic not loaded.</p>
+          <p class="meter warning">LOAD [|||||.......] 50%</p>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: MODULE_01 STANDBY</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
