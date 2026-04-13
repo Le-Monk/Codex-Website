@@ -23,7 +23,7 @@ body {
 }
 
 body {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Snell Roundhand", "Snell Roundhand Script", cursive;
   color: var(--ink);
   background: radial-gradient(circle at 80% 10%, #f8d8a7 0%, transparent 40%),
     radial-gradient(circle at 15% 25%, #e6d5ff 0%, transparent 40%), var(--bg);
@@ -111,7 +111,7 @@ section {
 }
 
 .hero h1 {
-  font-family: "Fraunces", serif;
+  font-family: inherit;
   font-size: clamp(2.1rem, 5.8vw, 4.3rem);
   line-height: 1.04;
   margin: 0.3rem 0 1rem;
