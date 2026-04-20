@@ -37,28 +37,44 @@
     <main class="page-wrap">
       <section class="pane hero reveal">
         <p class="titlebar">+--- GAME WINDOW 03 ---+</p>
-        <p class="prompt">player@arcade:~/circuit-clash$ ./start --mode versus</p>
+        <p class="prompt">player@arcade:~/circuit-clash$ ./start --mode endless</p>
         <h1><span data-typing data-text="CIRCUIT CLASH"></span><span class="cursor" aria-hidden="true">_</span></h1>
-        <p class="body-copy">Insert combat loop, score attack logic, and match state transitions in this window.</p>
+        <p class="body-copy">Dodge incoming hazards, collect charge cores, and survive as speed ramps up.</p>
       </section>
 
       <section class="game-shell reveal">
-        <div class="pane game-board" role="img" aria-label="Placeholder area for Circuit Clash game">
+        <div class="pane game-board circuit-board">
           <p class="titlebar">+--- RENDER TARGET ---+</p>
-          <p class="board-label">[ GAME_AREA_READY ]</p>
+          <div class="circuit-hud">
+            <p id="circuit-score" class="meter">SCORE [0000]</p>
+            <p id="circuit-speed" class="meter">SPEED [01]</p>
+            <p id="circuit-shields" class="meter warning">SHIELDS [03]</p>
+            <p id="circuit-charge" class="meter">CHARGE [00]</p>
+          </div>
+          <div class="circuit-stage">
+            <canvas id="circuit-canvas" width="480" height="480" aria-label="Circuit Clash game board"></canvas>
+            <div id="circuit-start-overlay" class="circuit-start-overlay is-visible" aria-hidden="false">
+              <button id="circuit-start" class="btn" type="button">[ START RUN ]</button>
+            </div>
+            <div id="circuit-overlay" class="circuit-overlay" aria-hidden="true" hidden>
+              <p class="meter error">[ERR] SYSTEM CRASH</p>
+              <p id="circuit-over-score" class="meter">FINAL SCORE [0000]</p>
+              <button id="circuit-restart" class="btn" type="button">[ TRY AGAIN ]</button>
+            </div>
+          </div>
         </div>
         <aside class="pane game-panel">
           <p class="titlebar">+--- PROCESS LOG ---+</p>
-          <p class="body-copy">[OK] Arena container prepared.</p>
-          <p class="body-copy">[OK] Leaderboard zone prepared.</p>
-          <p class="body-copy">[WARN] Matchmaking logic not loaded.</p>
-          <p class="meter warning">LOAD [||||.......] 40%</p>
+          <p class="body-copy">[OK] A/D or Arrow keys move the runner.</p>
+          <p class="body-copy">[OK] Hazard collisions consume shields.</p>
+          <p class="body-copy">[OK] Charge cores grant bonus score.</p>
+          <p class="meter warning">SURVIVAL [DODGE + COLLECT + ENDURE]</p>
         </aside>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: MODULE_03 STANDBY</p>
+      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: CIRCUIT CLASH READY</p>
     </footer>
 
     <script src="script.js"></script>

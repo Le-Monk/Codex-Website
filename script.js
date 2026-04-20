@@ -718,6 +718,311 @@ if (pageId === "game-2") {
   initGlyphGuardGame();
 }
 
+function initCircuitClashGame() {
+  const canvas = document.getElementById("circuit-canvas");
+  const scoreEl = document.getElementById("circuit-score");
+  const speedEl = document.getElementById("circuit-speed");
+  const shieldsEl = document.getElementById("circuit-shields");
+  const chargeEl = document.getElementById("circuit-charge");
+  const startOverlayEl = document.getElementById("circuit-start-overlay");
+  const startBtn = document.getElementById("circuit-start");
+  const overlayEl = document.getElementById("circuit-overlay");
+  const overlayScoreEl = document.getElementById("circuit-over-score");
+  const restartBtn = document.getElementById("circuit-restart");
+
+  if (
+    !canvas ||
+    !scoreEl ||
+    !speedEl ||
+    !shieldsEl ||
+    !chargeEl ||
+    !startOverlayEl ||
+    !startBtn ||
+    !overlayEl ||
+    !overlayScoreEl ||
+    !restartBtn
+  ) {
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return;
+  }
+
+  const laneCount = 6;
+  const laneWidth = canvas.width / laneCount;
+  const playerY = canvas.height - 72;
+  const tickMs = 1000 / 30;
+
+  let playerLane = Math.floor(laneCount / 2);
+  let score = 0;
+  let speedLevel = 1;
+  let shields = 3;
+  let charge = 0;
+  let hazards = [];
+  let cores = [];
+  let spawnTimer = 0;
+  let coreSpawnTimer = 0;
+  let loopTimer = null;
+  let hasStarted = false;
+  let isGameOver = false;
+
+  function fmt(value, size) {
+    return String(Math.max(0, value)).padStart(size, "0");
+  }
+
+  function updateHud() {
+    scoreEl.textContent = `SCORE [${fmt(score, 4)}]`;
+    speedEl.textContent = `SPEED [${fmt(speedLevel, 2)}]`;
+    shieldsEl.textContent = `SHIELDS [${fmt(shields, 2)}]`;
+    chargeEl.textContent = `CHARGE [${fmt(charge, 2)}]`;
+    shieldsEl.classList.toggle("error", shields <= 1);
+  }
+
+  function laneCenterX(lane) {
+    return lane * laneWidth + laneWidth * 0.5;
+  }
+
+  function drawTrack() {
+    ctx.fillStyle = "#0a0a0a";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = "rgba(31, 82, 31, 0.35)";
+    ctx.lineWidth = 2;
+    for (let i = 1; i < laneCount; i += 1) {
+      const x = i * laneWidth;
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+
+    const dashOffset = (Date.now() / 9) % 30;
+    ctx.setLineDash([12, 18]);
+    ctx.lineDashOffset = -dashOffset;
+    ctx.strokeStyle = "rgba(255, 176, 0, 0.45)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width * 0.5, 0);
+    ctx.lineTo(canvas.width * 0.5, canvas.height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function drawPlayer() {
+    const x = laneCenterX(playerLane);
+    const width = laneWidth * 0.44;
+    const height = 28;
+    ctx.fillStyle = "#33ff00";
+    ctx.fillRect(x - width / 2, playerY - height / 2, width, height);
+    ctx.fillStyle = "#0a0a0a";
+    ctx.fillRect(x - 5, playerY - 4, 10, 8);
+  }
+
+  function drawHazards() {
+    hazards.forEach((hazard) => {
+      const x = laneCenterX(hazard.lane);
+      ctx.fillStyle = "#ff3333";
+      ctx.fillRect(x - 14, hazard.y - 14, 28, 28);
+      ctx.strokeStyle = "#ffb000";
+      ctx.strokeRect(x - 16, hazard.y - 16, 32, 32);
+    });
+  }
+
+  function drawCores() {
+    cores.forEach((core) => {
+      const x = laneCenterX(core.lane);
+      ctx.fillStyle = "#ffb000";
+      ctx.beginPath();
+      ctx.arc(x, core.y, 9, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#33ff00";
+      ctx.beginPath();
+      ctx.arc(x, core.y, 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function render() {
+    drawTrack();
+    drawHazards();
+    drawCores();
+    drawPlayer();
+  }
+
+  function stopLoop() {
+    if (loopTimer !== null) {
+      window.clearInterval(loopTimer);
+      loopTimer = null;
+    }
+  }
+
+  function showGameOver() {
+    isGameOver = true;
+    stopLoop();
+    overlayScoreEl.textContent = `FINAL SCORE [${fmt(score, 4)}]`;
+    overlayEl.hidden = false;
+    overlayEl.classList.add("is-visible");
+    overlayEl.setAttribute("aria-hidden", "false");
+  }
+
+  function spawnHazard() {
+    const lane = Math.floor(Math.random() * laneCount);
+    hazards.push({ lane, y: -22 });
+  }
+
+  function spawnCore() {
+    const lane = Math.floor(Math.random() * laneCount);
+    cores.push({ lane, y: -14 });
+  }
+
+  function collideOnLane(objectY, size = 24) {
+    return Math.abs(objectY - playerY) <= size;
+  }
+
+  function updateObjects() {
+    const objectSpeed = 3 + speedLevel * 0.35;
+
+    hazards = hazards.filter((hazard) => {
+      hazard.y += objectSpeed;
+
+      if (hazard.lane === playerLane && collideOnLane(hazard.y, 24)) {
+        shields -= 1;
+        updateHud();
+        if (shields <= 0) {
+          showGameOver();
+        }
+        return false;
+      }
+
+      return hazard.y < canvas.height + 30;
+    });
+
+    cores = cores.filter((core) => {
+      core.y += objectSpeed * 0.92;
+
+      if (core.lane === playerLane && collideOnLane(core.y, 22)) {
+        charge += 1;
+        score += 60;
+        updateHud();
+        return false;
+      }
+
+      return core.y < canvas.height + 24;
+    });
+  }
+
+  function updateSpawning() {
+    if (spawnTimer <= 0) {
+      spawnHazard();
+      spawnTimer = Math.max(11, 30 - speedLevel * 2);
+    } else {
+      spawnTimer -= 1;
+    }
+
+    if (coreSpawnTimer <= 0) {
+      spawnCore();
+      coreSpawnTimer = Math.max(55, 130 - speedLevel * 3);
+    } else {
+      coreSpawnTimer -= 1;
+    }
+  }
+
+  function step() {
+    if (!hasStarted || isGameOver) {
+      return;
+    }
+
+    score += 1;
+    speedLevel = 1 + Math.floor(score / 220);
+    updateSpawning();
+    updateObjects();
+    updateHud();
+    render();
+  }
+
+  function startLoop() {
+    if (hasStarted || isGameOver) {
+      return;
+    }
+    hasStarted = true;
+    startOverlayEl.hidden = true;
+    startOverlayEl.classList.remove("is-visible");
+    startOverlayEl.setAttribute("aria-hidden", "true");
+    overlayEl.hidden = true;
+    overlayEl.classList.remove("is-visible");
+    overlayEl.setAttribute("aria-hidden", "true");
+    render();
+    stopLoop();
+    loopTimer = window.setInterval(step, tickMs);
+  }
+
+  function resetGame(showStartOverlay) {
+    stopLoop();
+    playerLane = Math.floor(laneCount / 2);
+    score = 0;
+    speedLevel = 1;
+    shields = 3;
+    charge = 0;
+    hazards = [];
+    cores = [];
+    spawnTimer = 8;
+    coreSpawnTimer = 65;
+    hasStarted = false;
+    isGameOver = false;
+    overlayEl.hidden = true;
+    overlayEl.classList.remove("is-visible");
+    overlayEl.setAttribute("aria-hidden", "true");
+
+    if (showStartOverlay) {
+      startOverlayEl.hidden = false;
+      startOverlayEl.classList.add("is-visible");
+      startOverlayEl.setAttribute("aria-hidden", "false");
+    } else {
+      startOverlayEl.hidden = true;
+      startOverlayEl.classList.remove("is-visible");
+      startOverlayEl.setAttribute("aria-hidden", "true");
+    }
+
+    updateHud();
+    render();
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (pageId !== "game-3") {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+    if (key === "arrowleft" || key === "a") {
+      event.preventDefault();
+      playerLane = Math.max(0, playerLane - 1);
+      render();
+    } else if (key === "arrowright" || key === "d") {
+      event.preventDefault();
+      playerLane = Math.min(laneCount - 1, playerLane + 1);
+      render();
+    }
+  });
+
+  startBtn.addEventListener("click", () => {
+    startBtn.blur();
+    startLoop();
+  });
+
+  restartBtn.addEventListener("click", () => {
+    resetGame(false);
+    startLoop();
+  });
+
+  resetGame(true);
+}
+
+if (pageId === "game-3") {
+  initCircuitClashGame();
+}
+
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }

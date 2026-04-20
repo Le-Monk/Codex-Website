@@ -345,6 +345,60 @@ body {
   display: grid;
 }
 
+.circuit-board {
+  position: relative;
+}
+
+.circuit-hud {
+  margin-top: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-1) var(--space-2);
+}
+
+.circuit-stage {
+  position: relative;
+  margin-top: var(--space-2);
+  width: min(100%, 480px);
+}
+
+#circuit-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border);
+  background: #070707;
+}
+
+.circuit-start-overlay,
+.circuit-overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  text-align: center;
+  z-index: 3;
+}
+
+.circuit-start-overlay {
+  background: rgba(10, 10, 10, 0.58);
+}
+
+.circuit-start-overlay.is-visible {
+  display: grid;
+}
+
+.circuit-overlay {
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid var(--error);
+}
+
+.circuit-overlay.is-visible {
+  display: grid;
+}
+
 .board-label {
   margin-top: auto;
   font-size: clamp(1rem, 3vw, 1.5rem);
