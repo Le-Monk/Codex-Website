@@ -76,11 +76,12 @@ typingTargets.forEach((target) => {
 function initSnakeGame() {
   const canvas = document.getElementById("snake-canvas");
   const scoreEl = document.getElementById("snake-score");
+  const startBtn = document.getElementById("snake-start");
   const overlayEl = document.getElementById("snake-overlay");
   const overlayScoreEl = document.getElementById("snake-over-score");
   const restartBtn = document.getElementById("snake-restart");
 
-  if (!canvas || !scoreEl || !overlayEl || !overlayScoreEl || !restartBtn) {
+  if (!canvas || !scoreEl || !startBtn || !overlayEl || !overlayScoreEl || !restartBtn) {
     return;
   }
 
@@ -217,6 +218,9 @@ function initSnakeGame() {
   function startGameLoop() {
     stopGameLoop();
     tickTimer = window.setInterval(step, initialTickMs);
+    hasStarted = true;
+    startBtn.disabled = true;
+    startBtn.textContent = "[ RUNNING ]";
   }
 
   function resetGame() {
@@ -232,6 +236,8 @@ function initSnakeGame() {
     hasStarted = false;
     isGameOver = false;
     overlayEl.hidden = true;
+    startBtn.disabled = false;
+    startBtn.textContent = "[ START GAME ]";
     updateScoreText();
     render();
   }
@@ -249,11 +255,6 @@ function initSnakeGame() {
     }
 
     queuedDirection = nextDirection;
-
-    if (!hasStarted) {
-      hasStarted = true;
-      startGameLoop();
-    }
   }
 
   document.addEventListener("keydown", (event) => {
@@ -280,6 +281,14 @@ function initSnakeGame() {
 
   restartBtn.addEventListener("click", () => {
     resetGame();
+    startGameLoop();
+  });
+
+  startBtn.addEventListener("click", () => {
+    if (hasStarted || isGameOver) {
+      return;
+    }
+    startGameLoop();
   });
 
   resetGame();
