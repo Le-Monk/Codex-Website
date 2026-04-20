@@ -37,28 +37,44 @@
     <main class="page-wrap">
       <section class="pane hero reveal">
         <p class="titlebar">+--- GAME WINDOW 02 ---+</p>
-        <p class="prompt">player@arcade:~/glyph-guard$ ./start --mode puzzle</p>
+        <p class="prompt">player@arcade:~/glyph-guard$ ./start --mode defense</p>
         <h1><span data-typing data-text="GLYPH GUARD"></span><span class="cursor" aria-hidden="true">_</span></h1>
-        <p class="body-copy">Insert tile/rune pattern logic, turn state, and progression systems in this window.</p>
+        <p class="body-copy">Click a tile to place rune turrets. Defend the route, survive waves, and stop breaches.</p>
       </section>
 
       <section class="game-shell reveal">
-        <div class="pane game-board" role="img" aria-label="Placeholder area for Glyph Guard game">
+        <div class="pane game-board glyph-board">
           <p class="titlebar">+--- RENDER TARGET ---+</p>
-          <p class="board-label">[ GAME_AREA_READY ]</p>
+          <div class="glyph-hud">
+            <p id="glyph-score" class="meter">SCORE [0000]</p>
+            <p id="glyph-wave" class="meter">WAVE [01]</p>
+            <p id="glyph-energy" class="meter">ENERGY [20]</p>
+            <p id="glyph-lives" class="meter warning">LIVES [10]</p>
+          </div>
+          <div class="glyph-stage">
+            <canvas id="glyph-canvas" width="480" height="480" aria-label="Glyph Guard game board"></canvas>
+            <div id="glyph-start-overlay" class="glyph-start-overlay is-visible" aria-hidden="false">
+              <button id="glyph-start" class="btn" type="button">[ START DEFENSE ]</button>
+            </div>
+            <div id="glyph-overlay" class="glyph-overlay" aria-hidden="true">
+              <p class="meter error">[ERR] FORTRESS BREACHED</p>
+              <p id="glyph-over-score" class="meter">FINAL SCORE [0000]</p>
+              <button id="glyph-restart" class="btn" type="button">[ TRY AGAIN ]</button>
+            </div>
+          </div>
         </div>
         <aside class="pane game-panel">
           <p class="titlebar">+--- PROCESS LOG ---+</p>
-          <p class="body-copy">[OK] Puzzle board container prepared.</p>
-          <p class="body-copy">[OK] Round/timer zone prepared.</p>
-          <p class="body-copy">[WARN] Rule engine not loaded.</p>
-          <p class="meter warning">LOAD [||||||......] 60%</p>
+          <p class="body-copy">[OK] Turret placement online (click grid).</p>
+          <p class="body-copy">[OK] Auto-fire and wave spawning active.</p>
+          <p class="body-copy">[OK] Score, energy, and life tracking linked.</p>
+          <p class="meter warning">TURRET COST [8 ENERGY] // SELL REFUND [4]</p>
         </aside>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: MODULE_02 STANDBY</p>
+      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: GLYPH GUARD READY</p>
     </footer>
 
     <script src="script.js"></script>
