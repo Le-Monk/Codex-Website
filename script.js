@@ -449,7 +449,7 @@ function initGlyphGuardGame() {
 
   function drawPath() {
     path.forEach((node) => {
-      ctx.fillStyle = "rgba(255, 176, 0, 0.16)";
+      ctx.fillStyle = "rgba(255, 176, 0, 0.28)";
       ctx.fillRect(node.x * cellSize, node.y * cellSize, cellSize, cellSize);
     });
   }
@@ -504,6 +504,7 @@ function initGlyphGuardGame() {
     isGameOver = true;
     stopLoop();
     overlayScoreEl.textContent = `FINAL SCORE [${formatNumber(score, 4)}]`;
+    overlayEl.hidden = false;
     overlayEl.classList.add("is-visible");
     overlayEl.setAttribute("aria-hidden", "false");
   }
@@ -617,8 +618,13 @@ function initGlyphGuardGame() {
       return;
     }
     hasStarted = true;
+    startOverlayEl.hidden = true;
     startOverlayEl.classList.remove("is-visible");
     startOverlayEl.setAttribute("aria-hidden", "true");
+    overlayEl.hidden = true;
+    overlayEl.classList.remove("is-visible");
+    overlayEl.setAttribute("aria-hidden", "true");
+    render();
     stopLoop();
     gameLoopTimer = window.setInterval(step, tickMs);
   }
@@ -635,13 +641,16 @@ function initGlyphGuardGame() {
     spawnTimer = 0;
     hasStarted = false;
     isGameOver = false;
+    overlayEl.hidden = true;
     overlayEl.classList.remove("is-visible");
     overlayEl.setAttribute("aria-hidden", "true");
 
     if (showStartOverlay) {
+      startOverlayEl.hidden = false;
       startOverlayEl.classList.add("is-visible");
       startOverlayEl.setAttribute("aria-hidden", "false");
     } else {
+      startOverlayEl.hidden = true;
       startOverlayEl.classList.remove("is-visible");
       startOverlayEl.setAttribute("aria-hidden", "true");
     }
