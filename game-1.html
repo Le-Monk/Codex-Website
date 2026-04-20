@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arcade Atlas | Nebula Dash</title>
+    <title>Arcade Atlas | Snake</title>
     <meta
       name="description"
-      content="Nebula Dash game page in Arcade Atlas terminal interface."
+      content="Snake game page in Arcade Atlas terminal interface."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
       </button>
       <nav class="top-nav" aria-label="Main navigation">
         <a data-nav="home" href="index.html">$ HOME</a>
-        <a data-nav="game-1" href="game-1.html">$ NEBULA_DASH</a>
+        <a data-nav="game-1" href="game-1.html">$ SNAKE</a>
         <a data-nav="game-2" href="game-2.html">$ GLYPH_GUARD</a>
         <a data-nav="game-3" href="game-3.html">$ CIRCUIT_CLASH</a>
       </nav>
@@ -37,28 +37,40 @@
     <main class="page-wrap">
       <section class="pane hero reveal">
         <p class="titlebar">+--- GAME WINDOW 01 ---+</p>
-        <p class="prompt">player@arcade:~/nebula-dash$ ./start --difficulty hard</p>
-        <h1><span data-typing data-text="NEBULA DASH"></span><span class="cursor" aria-hidden="true">_</span></h1>
-        <p class="body-copy">Insert movement logic, collision checks, and scoring loop in this dedicated pane.</p>
+        <p class="prompt">player@arcade:~/snake$ ./start --speed normal</p>
+        <h1><span data-typing data-text="SNAKE"></span><span class="cursor" aria-hidden="true">_</span></h1>
+        <p class="body-copy">Use arrow keys or WASD. Eat apples to increase score. Avoid walls and your own tail.</p>
       </section>
 
       <section class="game-shell reveal">
-        <div class="pane game-board" role="img" aria-label="Placeholder area for Nebula Dash game">
+        <div class="pane game-board snake-board">
           <p class="titlebar">+--- RENDER TARGET ---+</p>
-          <p class="board-label">[ GAME_AREA_READY ]</p>
+          <div class="snake-hud">
+            <p id="snake-score" class="meter">SCORE [000]</p>
+            <p class="meter">INPUT [ARROWS/WASD]</p>
+          </div>
+          <div class="snake-stage">
+            <canvas id="snake-canvas" width="480" height="480" aria-label="Snake game board"></canvas>
+            <div id="snake-overlay" class="snake-overlay" hidden>
+              <p id="snake-over-title" class="meter error">[ERR] GAME OVER</p>
+              <p id="snake-over-score" class="meter">APPLES EATEN [0]</p>
+              <button id="snake-restart" class="btn" type="button">[ TRY AGAIN ]</button>
+            </div>
+          </div>
         </div>
+
         <aside class="pane game-panel">
           <p class="titlebar">+--- PROCESS LOG ---+</p>
-          <p class="body-copy">[OK] Canvas/DOM zone prepared.</p>
-          <p class="body-copy">[OK] HUD and controls container prepared.</p>
-          <p class="body-copy">[WARN] Gameplay logic not loaded.</p>
-          <p class="meter warning">LOAD [|||||.......] 50%</p>
+          <p class="body-copy">[OK] Local JavaScript runtime active.</p>
+          <p class="body-copy">[OK] Score tracker linked to apple count.</p>
+          <p class="body-copy">[OK] Retry prompt appears after death.</p>
+          <p class="meter warning">TIP [PRESS AN ARROW KEY TO START]</p>
         </aside>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: MODULE_01 STANDBY</p>
+      <p>[OK] &copy; <span id="year"></span> ARCADE_ATLAS :: SNAKE READY</p>
     </footer>
 
     <script src="script.js"></script>
