@@ -243,6 +243,11 @@ body {
   justify-content: space-between;
 }
 
+#snake-start {
+  display: inline-block;
+  margin-left: auto;
+}
+
 .snake-stage {
   position: relative;
   margin-top: var(--space-2);
@@ -262,11 +267,15 @@ body {
   inset: 0;
   background: rgba(10, 10, 10, 0.9);
   border: 1px solid var(--error);
-  display: grid;
+  display: none;
   place-content: center;
   gap: var(--space-2);
   padding: var(--space-3);
   text-align: center;
+}
+
+.snake-overlay.is-visible {
+  display: grid;
 }
 
 .board-label {

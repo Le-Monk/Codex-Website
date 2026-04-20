@@ -175,7 +175,8 @@ function initSnakeGame() {
     isGameOver = true;
     stopGameLoop();
     overlayScoreEl.textContent = `APPLES EATEN [${score}]`;
-    overlayEl.hidden = false;
+    overlayEl.classList.add("is-visible");
+    overlayEl.setAttribute("aria-hidden", "false");
   }
 
   function step() {
@@ -235,7 +236,8 @@ function initSnakeGame() {
     score = 0;
     hasStarted = false;
     isGameOver = false;
-    overlayEl.hidden = true;
+    overlayEl.classList.remove("is-visible");
+    overlayEl.setAttribute("aria-hidden", "true");
     startBtn.disabled = false;
     startBtn.textContent = "[ START GAME ]";
     updateScoreText();
