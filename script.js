@@ -76,12 +76,21 @@ typingTargets.forEach((target) => {
 function initSnakeGame() {
   const canvas = document.getElementById("snake-canvas");
   const scoreEl = document.getElementById("snake-score");
+  const startOverlayEl = document.getElementById("snake-start-overlay");
   const startBtn = document.getElementById("snake-start");
   const overlayEl = document.getElementById("snake-overlay");
   const overlayScoreEl = document.getElementById("snake-over-score");
   const restartBtn = document.getElementById("snake-restart");
 
-  if (!canvas || !scoreEl || !startBtn || !overlayEl || !overlayScoreEl || !restartBtn) {
+  if (
+    !canvas ||
+    !scoreEl ||
+    !startOverlayEl ||
+    !startBtn ||
+    !overlayEl ||
+    !overlayScoreEl ||
+    !restartBtn
+  ) {
     return;
   }
 
@@ -220,11 +229,11 @@ function initSnakeGame() {
     stopGameLoop();
     tickTimer = window.setInterval(step, initialTickMs);
     hasStarted = true;
-    startBtn.disabled = true;
-    startBtn.textContent = "[ RUNNING ]";
+    startOverlayEl.classList.remove("is-visible");
+    startOverlayEl.setAttribute("aria-hidden", "true");
   }
 
-  function resetGame() {
+  function resetGame({ showStartOverlay }) {
     snake = [
       { x: 12, y: 12 },
       { x: 11, y: 12 },
@@ -238,8 +247,13 @@ function initSnakeGame() {
     isGameOver = false;
     overlayEl.classList.remove("is-visible");
     overlayEl.setAttribute("aria-hidden", "true");
-    startBtn.disabled = false;
-    startBtn.textContent = "[ START GAME ]";
+    if (showStartOverlay) {
+      startOverlayEl.classList.add("is-visible");
+      startOverlayEl.setAttribute("aria-hidden", "false");
+    } else {
+      startOverlayEl.classList.remove("is-visible");
+      startOverlayEl.setAttribute("aria-hidden", "true");
+    }
     updateScoreText();
     render();
   }
@@ -282,7 +296,7 @@ function initSnakeGame() {
   });
 
   restartBtn.addEventListener("click", () => {
-    resetGame();
+    resetGame({ showStartOverlay: false });
     startGameLoop();
   });
 
@@ -290,10 +304,11 @@ function initSnakeGame() {
     if (hasStarted || isGameOver) {
       return;
     }
+    startBtn.blur();
     startGameLoop();
   });
 
-  resetGame();
+  resetGame({ showStartOverlay: true });
 }
 
 if (pageId === "game-1") {

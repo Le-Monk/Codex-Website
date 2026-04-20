@@ -48,10 +48,12 @@
           <div class="snake-hud">
             <p id="snake-score" class="meter">SCORE [000]</p>
             <p class="meter">INPUT [ARROWS/WASD]</p>
-            <button id="snake-start" class="btn" type="button">[ START GAME ]</button>
           </div>
           <div class="snake-stage">
             <canvas id="snake-canvas" width="480" height="480" aria-label="Snake game board"></canvas>
+            <div id="snake-start-overlay" class="snake-start-overlay" aria-hidden="false">
+              <button id="snake-start" class="btn" type="button">[ START GAME ]</button>
+            </div>
             <div id="snake-overlay" class="snake-overlay" aria-hidden="true">
               <p id="snake-over-title" class="meter error">[ERR] GAME OVER</p>
               <p id="snake-over-score" class="meter">APPLES EATEN [0]</p>
