@@ -863,7 +863,6 @@ function initCircuitClashGame() {
     stopLoop();
     overlayScoreEl.textContent = `FINAL SCORE [${fmt(score, 4)}]`;
     overlayEl.hidden = false;
-    overlayEl.classList.add("is-visible");
     overlayEl.setAttribute("aria-hidden", "false");
   }
 
@@ -948,10 +947,8 @@ function initCircuitClashGame() {
     }
     hasStarted = true;
     startOverlayEl.hidden = true;
-    startOverlayEl.classList.remove("is-visible");
     startOverlayEl.setAttribute("aria-hidden", "true");
     overlayEl.hidden = true;
-    overlayEl.classList.remove("is-visible");
     overlayEl.setAttribute("aria-hidden", "true");
     render();
     stopLoop();
@@ -972,16 +969,13 @@ function initCircuitClashGame() {
     hasStarted = false;
     isGameOver = false;
     overlayEl.hidden = true;
-    overlayEl.classList.remove("is-visible");
     overlayEl.setAttribute("aria-hidden", "true");
 
     if (showStartOverlay) {
       startOverlayEl.hidden = false;
-      startOverlayEl.classList.add("is-visible");
       startOverlayEl.setAttribute("aria-hidden", "false");
     } else {
       startOverlayEl.hidden = true;
-      startOverlayEl.classList.remove("is-visible");
       startOverlayEl.setAttribute("aria-hidden", "true");
     }
 

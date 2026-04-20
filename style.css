@@ -374,7 +374,7 @@ body {
 .circuit-overlay {
   position: absolute;
   inset: 0;
-  display: none;
+  display: grid;
   place-content: center;
   gap: var(--space-2);
   padding: var(--space-3);
@@ -386,17 +386,9 @@ body {
   background: rgba(10, 10, 10, 0.58);
 }
 
-.circuit-start-overlay.is-visible {
-  display: grid;
-}
-
 .circuit-overlay {
   background: rgba(10, 10, 10, 0.9);
   border: 1px solid var(--error);
-}
-
-.circuit-overlay.is-visible {
-  display: grid;
 }
 
 .board-label {
